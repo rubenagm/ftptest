@@ -17,7 +17,8 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      git diff HEAD --name-only
+      $files = git diff HEAD --name-only;
+      echo $files;
 
 - script: |
     echo Add other tasks to build, test, and deploy your project.
