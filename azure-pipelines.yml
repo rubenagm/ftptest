@@ -18,7 +18,7 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      MODIFIED_FILES=$(git diff HEAD HEAD~ --name-only)
+      MODIFIED_FILES=$(git diff HEAD --name-only)
       echo $MODIFIED_FILES
 
 - script: |
