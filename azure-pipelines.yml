@@ -17,7 +17,7 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      $files = git diff HEAD --name-only;
+      $files = git diff --name-only HEAD~ HEAD;
       echo $files;
 
 - script: |
