@@ -13,25 +13,13 @@ steps:
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
 
-- task: PowerShell@2
+- task: Bash@3
+  name: ModifiedFiles
   inputs:
     targetType: 'inline'
     script: |
-      # Get the list of commits in the pull request
-      $url = "$(System.CollectionUri)$(System.TeamProject)/_apis/git/repositories/$(Build.Repository.Name)/pullrequests/$(System.PullRequest.PullRequestId)/commits?api-version=7.1-preview.1"
-      Write-Host $url
-      $commits = Invoke-RestMethod -Uri $url -Method Get -Headers @{Authorization = "Bearer $(System.AccessToken)"}
-
-      # Check the file count for each commit
-
-      foreach ($commit in $commits.value.CommitId) {
-            echo $commit
-            $filechangeUrl = "$(System.CollectionUri)$(System.TeamProject)/_apis/git/repositories/$(Build.Repository.Name)/commits/$commit/changes"
-            echo $filechangeUrl
-            $change = Invoke-RestMethod -Method Get -Uri $filechangeUrl -Headers @{Authorization = "Bearer $(System.AccessToken)"}
-            $filesCount = $change.changes.Count
-            Write-Host "Commit $commit has $filesCount files."
-          }
+      MODIFIED_FILES=$(git diff HEAD HEAD~ --name-only)
+      echo $MODIFIED_FILES
 
 - script: |
     echo Add other tasks to build, test, and deploy your project.
