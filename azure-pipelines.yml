@@ -13,13 +13,11 @@ steps:
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
 
-- task: Bash@3
-  name: ModifiedFiles
+- task: PowerShell@2
   inputs:
     targetType: 'inline'
     script: |
-      MODIFIED_FILES=$(git diff HEAD --name-only)
-      echo $MODIFIED_FILES
+      git diff HEAD HEAD~ --name-only
 
 - script: |
     echo Add other tasks to build, test, and deploy your project.
